@@ -13,9 +13,8 @@ int main(void) {
         return 1;
     }
 
-    printf("loaded %d samples\n", count);
-
-
+    printf("===>>>>> Power Quality Analyser <<<<<===\n");
+    printf("Loaded %d samples\n\n", count);
     for (int i = 0; i < 5; i++) {
         printf("Time: %.4f | PhaseA: %.2f | PhaseB: %.2f | PhaseC: %.2f\n",
                samples[i].timestamp,
