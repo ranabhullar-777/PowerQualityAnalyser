@@ -53,3 +53,16 @@ int count_clipped(WaveformSample *samples, int count, int phase) {
     return clipped;
 
 }
+void check_compliance(double rms, int phase) {
+    char phase_name;
+
+    if (phase == 0) phase_name = 'A';
+    else if (phase == 1) phase_name = 'B';
+    else phase_name = 'C';
+
+    if (rms >= 207.0 && rms <= 253.0) {
+        printf("phase %c: Compliant (%.2f V within 207-253V band)\n", phase_name, rms);
+    } else {
+        printf("Phase %c: Non-Compliant (%.2f V outside 207-253V band)\n", phase_name, rms);
+    }
+}
