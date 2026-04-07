@@ -51,6 +51,19 @@ int main(int argc, char *argv[]) {
     printf("Phase A DC Offset: %.4f V\n", dc_a);
     printf("Phase B DC Offset: %.4f V\n", dc_b);
     printf("Phase C DC Offset: %.4f V\n", dc_c);
+
+    int clipped_a = count_clipped(samples, count, 0);
+    int clipped_b = count_clipped(samples, count, 1);
+    int clipped_c = count_clipped(samples, count, 2);
+
+    printf("Phase A clipped: %d samples\n", clipped_a);
+    printf("Phase B clipped: %d samples\n", clipped_b);
+    printf("Phase C clipped: %d samples\n", clipped_c);
+    printf("total clipped: %d samples\n", clipped_a + clipped_b + clipped_c);
+    /*  TO BE NOTED ==  Brief stated that its 20 total ,
+     * but actual  data shows 20 per phase = 60 total
+     * my result is correct based on the actual CSV data*/
+
     free(samples);
     return 0;
 }
