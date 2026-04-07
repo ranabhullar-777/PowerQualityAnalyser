@@ -12,5 +12,5 @@ typedef struct {
     double power_factor; // from 0 to 1
     double thd_percent;// in percentage
 } WaveformSample;
-
+double compute_rms(WaveformSample *samples, int count, int phase);
 #endif
