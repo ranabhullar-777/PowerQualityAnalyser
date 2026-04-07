@@ -13,5 +13,6 @@ typedef struct {
     double thd_percent;// in percentage
 } WaveformSample;
 double compute_rms(WaveformSample *samples, int count, int phase);
-#endif
 double compute_peak_to_peak(WaveformSample *samples, int count, int phase);
+double compute_dc_offset(WaveformSample *samples, int count, int phase);
+#endif
