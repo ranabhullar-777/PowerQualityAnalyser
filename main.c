@@ -63,7 +63,11 @@ int main(int argc, char *argv[]) {
     /*  TO BE NOTED ==  Brief stated that its 20 total ,
      * but actual  data shows 20 per phase = 60 total
      * my result is correct based on the actual CSV data*/
-
+    printf("\n----- Voltage Compliance Check (EN 50160) ------\n");
+    printf("Acceptable range: 207V to 253V\n\n");
+    check_compliance(rms_a, 0);
+    check_compliance(rms_b, 1);
+    check_compliance(rms_c, 2);
     free(samples);
     return 0;
 }
