@@ -43,6 +43,14 @@ int main(int argc, char *argv[]) {
     printf("Phase A Peak-to-Peak: %.2f V\n", pp_a);
     printf("Phase B Peak-to-Peak: %.2f V\n", pp_b);
     printf("Phase C Peak-to-Peak: %.2f V\n", pp_c);
+
+    double dc_a = compute_dc_offset(samples, count, 0);
+    double dc_b = compute_dc_offset(samples, count, 1);
+    double dc_c = compute_dc_offset(samples, count, 2);
+
+    printf("Phase A DC Offset: %.4f V\n", dc_a);
+    printf("Phase B DC Offset: %.4f V\n", dc_b);
+    printf("Phase C DC Offset: %.4f V\n", dc_c);
     free(samples);
     return 0;
 }
