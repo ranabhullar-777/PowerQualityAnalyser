@@ -28,7 +28,13 @@ int main(int argc, char *argv[]) {
                samples[i].phase_B_voltage,
                samples[i].phase_C_voltage);
     }
+    double rms_a = compute_rms(samples, count, 0);
+    double rms_b = compute_rms(samples, count, 1);
+    double rms_c = compute_rms(samples, count, 2);
 
+    printf("Phase A RMS: %.2f V\n", rms_a);
+    printf("Phase B RMS: %.2f V\n", rms_b);
+    printf("Phase C RMS: %.2f V\n", rms_c);
     free(samples);
     return 0;
 }
