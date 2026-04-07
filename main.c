@@ -60,9 +60,9 @@ int main(int argc, char *argv[]) {
     printf("Phase B clipped: %d samples\n", clipped_b);
     printf("Phase C clipped: %d samples\n", clipped_c);
     printf("total clipped: %d samples\n", clipped_a + clipped_b + clipped_c);
-    /*  TO BE NOTED ==  Brief stated that its 20 total ,
-     * but actual  data shows 20 per phase = 60 total
-     * my result is correct based on the actual CSV data*/
+    /*  TO BE NOTED == 60 individual clipped values across all phases
+   20 per phase, 1 phase clips per row = 60 total
+   Brief refers to 20 unique clipping events */
     printf("\n----- Voltage Compliance Check (EN 50160) ------\n");
     printf("Acceptable range: 207V to 253V\n\n");
     check_compliance(rms_a, 0);
