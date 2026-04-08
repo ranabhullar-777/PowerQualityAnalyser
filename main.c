@@ -70,7 +70,10 @@ int main(int argc, char *argv[]) {
     check_compliance(rms_c, 2);
 
 
-/*  to find min and max for frequency , power factor and THD*/
+/*  to find min and max for frequency , power factor and THD
+ *  these are pre computed in the CSV so no calculations
+ *  needed just scan all samples to find the range
+ */
     double freq_min = samples[0].frequency;
     double freq_max = samples[0].frequency;
     double pf_min = samples[0].power_factor;
