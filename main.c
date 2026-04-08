@@ -68,6 +68,34 @@ int main(int argc, char *argv[]) {
     check_compliance(rms_a, 0);
     check_compliance(rms_b, 1);
     check_compliance(rms_c, 2);
+
+
+/*  to find min and max for frequency , power factor and THD*/
+    double freq_min = samples[0].frequency;
+    double freq_max = samples[0].frequency;
+    double pf_min = samples[0].power_factor;
+    double pf_max = samples[0].power_factor;
+    double thd_min = samples[0].thd_percent;
+    double thd_max = samples[0].thd_percent;
+
+    for (int i = 1; i < count; i++) {
+        if (samples[i].frequency < freq_min) freq_min = samples[i].frequency;
+        if (samples[i].frequency > freq_max) freq_max = samples[i].frequency;
+        if (samples[i].power_factor < pf_min) pf_min = samples[i].power_factor;
+        if (samples[i].power_factor > pf_max) pf_max = samples[i].power_factor;
+        if (samples[i].thd_percent < thd_min) thd_min = samples[i].thd_percent;
+        if (samples[i].thd_percent > thd_max) thd_max = samples[i].thd_percent;
+    }
+    printf("\n====> Frequency, Power Factor and THD <=====\n");
+    printf("Frequency range: %.3f Hz to %.3f Hz\n", freq_min, freq_max);
+    printf("Power factor range: %.3f to %.3f\n", pf_min, pf_max);
+    printf("THD range: %.2f%% to %.2f%%\n", thd_min, thd_max);
+
+
+
+
+
+
     free(samples);
     return 0;
 }
