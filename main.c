@@ -96,6 +96,14 @@ int main(int argc, char *argv[]) {
 
 
 
+    write_results("results.txt", samples, count,
+              rms_a, rms_b, rms_c,
+              pp_a, pp_b, pp_c,
+              dc_a, dc_b, dc_c,
+              clipped_a, clipped_b, clipped_c,
+              freq_min, freq_max,
+              pf_min, pf_max,
+              thd_min, thd_max);
 
 
 
