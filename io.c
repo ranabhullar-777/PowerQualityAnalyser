@@ -12,7 +12,7 @@ WaveformSample *load_csv(const char *filename, int *count) {
         printf("please check the file exists and try again\n");
         return NULL;
     }
-
+    // allocate memory for 1000 samples
     WaveformSample *samples = malloc(1000 * sizeof(WaveformSample));
     if (samples == NULL) {
         printf("error: memory allocation failed\n");
@@ -31,7 +31,7 @@ WaveformSample *load_csv(const char *filename, int *count) {
 
     *count = 0;
 
-
+    // read each row and parse the 8 columns using strtok
     while (fgets(line, sizeof(line), fp) != NULL) {
         WaveformSample s;
 
@@ -47,6 +47,7 @@ WaveformSample *load_csv(const char *filename, int *count) {
         samples[*count] = s;
         (*count)++;
     }
+    // check file had actual data rows
     if (*count == 0) {
         printf("error: file has no data rows\n");
         free(samples);
@@ -58,6 +59,7 @@ WaveformSample *load_csv(const char *filename, int *count) {
     fclose(fp);
     return samples;
 }
+
 void write_results(const char *filename, WaveformSample *samples, int count,
                    double rms_a, double rms_b, double rms_c,
                    double pp_a, double pp_b, double pp_c,
@@ -66,6 +68,7 @@ void write_results(const char *filename, WaveformSample *samples, int count,
                    double freq_min, double freq_max,
                    double pf_min, double pf_max,
                    double thd_min, double thd_max) {
+    // open file in write mode - creates it if it doesnt exist
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
         printf("Error: could not open file %s\n", filename);
