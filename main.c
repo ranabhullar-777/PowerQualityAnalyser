@@ -5,11 +5,14 @@
 
 int main(int argc, char *argv[]) {
 
+    // check that the user has actually given  us a filename to work with
     if (argc < 2) {
         printf("Usage: ./PowerQualityAnalyser power_quality_log.csv\n");
         return 1;
     }
 
+
+    // load all 1000 rows from the CSV file into memory
     int count = 0;
     WaveformSample *samples = load_csv(argv[1], &count);
 
@@ -20,7 +23,7 @@ int main(int argc, char *argv[]) {
     printf("=== Power Quality Analyser ===\n\n");
     printf("Loaded %d samples\n\n", count);
 
-    // Print first 5 rows to verify
+    // Print first 5 rows to verify if the csv loaded correctly
     for (int i = 0; i < 5; i++) {
         printf("Time: %.4f | PhaseA: %.2f | PhaseB: %.2f | PhaseC: %.2f\n",
                samples[i].timestamp,
@@ -28,6 +31,8 @@ int main(int argc, char *argv[]) {
                samples[i].phase_B_voltage,
                samples[i].phase_C_voltage);
     }
+
+    // calculate RMS volatge for all 3 phases
     double rms_a = compute_rms(samples, count, 0);
     double rms_b = compute_rms(samples, count, 1);
     double rms_c = compute_rms(samples, count, 2);
@@ -36,6 +41,7 @@ int main(int argc, char *argv[]) {
     printf("Phase B RMS: %.2f V\n", rms_b);
     printf("Phase C RMS: %.2f V\n", rms_c);
 
+    // calculate peak to peak voltage
     double pp_a = compute_peak_to_peak(samples, count, 0);
     double pp_b = compute_peak_to_peak(samples, count, 1);
     double pp_c = compute_peak_to_peak(samples, count, 2);
@@ -44,6 +50,8 @@ int main(int argc, char *argv[]) {
     printf("Phase B Peak-to-Peak: %.2f V\n", pp_b);
     printf("Phase C Peak-to-Peak: %.2f V\n", pp_c);
 
+
+    // calculate dc offset
     double dc_a = compute_dc_offset(samples, count, 0);
     double dc_b = compute_dc_offset(samples, count, 1);
     double dc_c = compute_dc_offset(samples, count, 2);
@@ -52,6 +60,8 @@ int main(int argc, char *argv[]) {
     printf("Phase B DC Offset: %.4f V\n", dc_b);
     printf("Phase C DC Offset: %.4f V\n", dc_c);
 
+
+    // count clipped samples
     int clipped_a = count_clipped(samples, count, 0);
     int clipped_b = count_clipped(samples, count, 1);
     int clipped_c = count_clipped(samples, count, 2);
@@ -63,6 +73,9 @@ int main(int argc, char *argv[]) {
     /*  TO BE NOTED == 60 individual clipped values across all phases
    20 per phase, 1 phase clips per row = 60 total
    Brief refers to 20 unique clipping events */
+
+
+    // check if each phase is within EN 50160 tolerance band 207-253V
     printf("\n----- Voltage Compliance Check (EN 50160) ------\n");
     printf("Acceptable range: 207V to 253V\n\n");
     check_compliance(rms_a, 0);
@@ -95,7 +108,7 @@ int main(int argc, char *argv[]) {
     printf("THD range: %.2f%% to %.2f%%\n", thd_min, thd_max);
 
 
-
+    // write all results to results.txt
     write_results("results.txt", samples, count,
               rms_a, rms_b, rms_c,
               pp_a, pp_b, pp_c,
