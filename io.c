@@ -9,20 +9,25 @@ WaveformSample *load_csv(const char *filename, int *count) {
     FILE *fp = fopen(filename, "r");
     if (fp == NULL) {
         printf("Error: could not open file %s\n", filename);
+        printf("please check the file exists and try again\n");
         return NULL;
     }
 
     WaveformSample *samples = malloc(1000 * sizeof(WaveformSample));
     if (samples == NULL) {
-        printf("Error: memory allocation failed\n");
+        printf("error: memory allocation failed\n");
         fclose(fp);
         return NULL;
     }
 
     char line[512];
 
-
-    fgets(line, sizeof(line), fp);
+    if (fgets(line, sizeof(line), fp) == NULL) {
+        printf("error: file is empty\n");
+        free(samples);
+        fclose(fp);
+        return NULL;
+    }
 
     *count = 0;
 
@@ -42,6 +47,13 @@ WaveformSample *load_csv(const char *filename, int *count) {
         samples[*count] = s;
         (*count)++;
     }
+    if (*count == 0) {
+        printf("error: file has no data rows\n");
+        free(samples);
+        fclose(fp);
+        return NULL;
+    }
+
 
     fclose(fp);
     return samples;
