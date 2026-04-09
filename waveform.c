@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <math.h>
 #include "waveform.h"
+
+// calculate RMS voltage for a given phase
+// we use phase 0=A, 1=B, 2=C to avoid writing 3 separate functions
 double compute_rms(WaveformSample *samples, int count, int phase) {
     double sum_sq = 0.0;
     for (int i = 0; i < count; i++) {
         double voltage;
+
         if (phase == 0) voltage = samples[i].phase_A_voltage;
         else if (phase == 1) voltage = samples[i].phase_B_voltage;
         else voltage = samples[i].phase_C_voltage;
@@ -13,6 +17,7 @@ double compute_rms(WaveformSample *samples, int count, int phase) {
     return sqrt(sum_sq/count);
 
 }
+// peak to peak = highest sample minus lowest sample
 double compute_peak_to_peak(WaveformSample *samples, int count, int phase) {
     double max = -9999999.0;
     double min =  9999999.0;
@@ -28,6 +33,7 @@ double compute_peak_to_peak(WaveformSample *samples, int count, int phase) {
     }
     return max - min;
 }
+//DC offset = mean voltage, should be ~0V for clean AC
 double compute_dc_offset(WaveformSample *samples, int count, int phase) {
     double sum = 0.0;
     for (int i = 0; i < count; i++) {
@@ -38,6 +44,7 @@ double compute_dc_offset(WaveformSample *samples, int count, int phase) {
 
     return sum/count;
 }
+//flag any sample where voltage hits sensor limit of 325.0V
 int count_clipped(WaveformSample *samples, int count, int phase) {
     int clipped = 0;
     for (int i = 0; i < count; i++) {
@@ -53,6 +60,7 @@ int count_clipped(WaveformSample *samples, int count, int phase) {
     return clipped;
 
 }
+//EN 50160 standard - acceptable range 207V to 253V (230V +/- 10%)
 void check_compliance(double rms, int phase) {
     char phase_name;
 
