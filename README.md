@@ -43,10 +43,10 @@ report to results.txt.
 ---
 
 ## How to compile (command line)
-gcc main.c io.c waveform.c -o analyser -lm
+gcc main.c io.c waveform.c -o PowerQualityAnalyser -lm
 
 ## How to run (command line)
-./analyser power_quality_log.csv
+./PowerQualityAnalyser power_quality_log.csv
 
 ---
 
