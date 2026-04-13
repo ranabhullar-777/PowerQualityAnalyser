@@ -43,10 +43,10 @@ report to results.txt.
 ---
 
 ## How to compile (command line)
-gcc main.c io.c waveform.c -o analyser -lm
+gcc main.c io.c waveform.c -o PowerQualityAnalyser -lm
 
 ## How to run (command line)
-./analyser power_quality_log.csv
+./PowerQualityAnalyser power_quality_log.csv
 
 ---
 
@@ -63,7 +63,7 @@ gcc main.c io.c waveform.c -o analyser -lm
 - Phase A RMS: ~229.7V (COMPLIANT)
 - Peak-to-peak: ~650.0V
 - DC offset: ~0.00V
-- Clipped samples: 20 total across all phases
+- Clipped samples: 60 total (20 per phase)
 - Frequency: 50.000 - 50.048 Hz
 - Power factor: 0.950 - 0.962
 - THD: 2.00% - 2.18%
