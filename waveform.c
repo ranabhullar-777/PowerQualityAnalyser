@@ -74,3 +74,34 @@ void check_compliance(double rms, int phase) {
         printf("Phase %c: Non-Compliant (%.2f V outside 207-253V band)\n", phase_name, rms);
     }
 }
+// standard deviation - two pass algorithm
+// pass 1: calculate mean
+// pass 2 : calculate how far each value is from mean
+
+double compute_std_dev(WaveformSample *samples, int count, int phase) {
+    double sum = 0.0;
+    // pass 1 : calculate mean
+    for (int i = 0; i < count; i++) {
+        if (phase == 0) sum += samples[i].phase_A_voltage;
+        else if (phase == 1) sum += samples[i].phase_B_voltage;
+        else sum += samples[i].phase_C_voltage;
+    }
+    double mean = sum / count;
+    //pass 2 - calculate variance
+    double sum_sq = 0.0;
+    for (int i = 0; i < count; i++) {
+        double voltage;
+        if (phase == 0) voltage = samples[i].phase_A_voltage;
+        else if (phase == 1) voltage = samples[i].phase_B_voltage;
+        else voltage = samples[i].phase_C_voltage;
+
+        double diff = voltage - mean;
+        sum_sq += diff * diff;
+    }
+    return sqrt(sum_sq / count);
+}
+// variance = standard deviation squared
+double compute_variance(WaveformSample *samples, int count, int phase) {
+    double std_dev = compute_std_dev(samples, count, phase);
+    return std_dev * std_dev;
+}
