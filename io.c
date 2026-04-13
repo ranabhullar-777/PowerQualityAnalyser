@@ -67,7 +67,9 @@ void write_results(const char *filename, WaveformSample *samples, int count,
                    int clipped_a, int clipped_b, int clipped_c,
                    double freq_min, double freq_max,
                    double pf_min, double pf_max,
-                   double thd_min, double thd_max) {
+                   double thd_min, double thd_max,
+                   double std_a, double std_b, double std_c,
+                 double var_a, double var_b, double var_c) {
     // open file in write mode - creates it if it doesnt exist
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
@@ -79,22 +81,22 @@ void write_results(const char *filename, WaveformSample *samples, int count,
     fprintf(fp, "#########################################\n\n");
     fprintf(fp, "Total samples loaded: %d\n\n", count);
 
-    fprintf(fp, "--- RMS Voltage ---\n");
+    fprintf(fp, "====> RMS Voltage <====\n");
     fprintf(fp, "Phase A: %.2f V\n", rms_a);
     fprintf(fp, "Phase B: %.2f V\n", rms_b);
     fprintf(fp, "Phase C: %.2f V\n\n", rms_c);
 
-    fprintf(fp, "--- Peak-to-Peak Voltage ---\n");
+    fprintf(fp, "====> Peak-to-Peak Voltage <====\n");
     fprintf(fp, "Phase A: %.2f V\n", pp_a);
     fprintf(fp, "Phase B: %.2f V\n", pp_b);
     fprintf(fp, "Phase C: %.2f V\n\n", pp_c);
 
-    fprintf(fp, "--- DC Offset ---\n");
+    fprintf(fp, "====> DC Offset <====\n");
     fprintf(fp, "Phase A: %.4f V\n", dc_a);
     fprintf(fp, "Phase B: %.4f V\n", dc_b);
     fprintf(fp, "Phase C: %.4f V\n\n", dc_c);
 
-    fprintf(fp, "--- Clipping Detection ---\n");
+    fprintf(fp, "====> Clipping Detection <====\n");
     fprintf(fp, "Phase A: %d samples\n", clipped_a);
     fprintf(fp, "Phase B: %d samples\n", clipped_b);
     fprintf(fp, "Phase C: %d samples\n", clipped_c);
@@ -105,14 +107,27 @@ void write_results(const char *filename, WaveformSample *samples, int count,
     fprintf(fp, "Phase B: %s (%.2f V)\n", (rms_b >= 207.0 && rms_b <= 253.0) ? "Compliant" : "Non-Compliant", rms_b);
     fprintf(fp, "Phase C: %s (%.2f V)\n\n", (rms_c >= 207.0 && rms_c <= 253.0) ? "Compliant" : "Non-Compliant", rms_c);
 
-    fprintf(fp, "--- Frequency, Power Factor and THD ---\n");
+    fprintf(fp, "====>Frequency, Power Factor and THD <=====\n");
     fprintf(fp, "Frequency range: %.3f Hz to %.3f Hz\n", freq_min, freq_max);
     fprintf(fp, "Power factor range: %.3f to %.3f\n", pf_min, pf_max);
     fprintf(fp, "THD range: %.2f%% to %.2f%%\n", thd_min, thd_max);
 
+    fprintf(fp, "====>Standard Deviation <====\n");
+    fprintf(fp, "Phase A: %.4f V\n", std_a);
+    fprintf(fp, "Phase B: %.4f V\n", std_b);
+    fprintf(fp, "Phase C: %.4f V\n\n", std_c);
+
+    fprintf(fp, "====>Variance <====\n");
+    fprintf(fp, "Phase A: %.4f V\n", var_a);
+    fprintf(fp, "Phase B: %.4f V\n", var_b);
+    fprintf(fp, "Phase C: %.4f V\n\n", var_c);
+
+
+
     fprintf(fp, "\n###########################################\n");
     fprintf(fp, "   End of Report\n");
     fprintf(fp, "#############################################\n");
+
 
     fclose(fp);
     printf("\nResults written to %s\n", filename);

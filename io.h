@@ -9,5 +9,7 @@ void write_results(const char *filename, WaveformSample *samples, int count,
                    int clipped_a, int clipped_b, int clipped_c,
                    double freq_min, double freq_max,
                    double pf_min, double pf_max,
-                   double thd_min, double thd_max);
+                   double thd_min, double thd_max,
+                   double std_a, double std_b, double std_c,
+                 double var_a, double var_b, double var_c);
 #endif
