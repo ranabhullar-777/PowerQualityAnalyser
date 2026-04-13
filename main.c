@@ -7,6 +7,7 @@ int main(int argc, char *argv[]) {
 
     // check that the user has actually given  us a filename to work with
     if (argc < 2) {
+        printf("Error: no file provided!\n");
         printf("Usage: ./PowerQualityAnalyser power_quality_log.csv\n");
         return 1;
     }
@@ -107,6 +108,25 @@ int main(int argc, char *argv[]) {
     printf("Power factor range: %.3f to %.3f\n", pf_min, pf_max);
     printf("THD range: %.2f%% to %.2f%%\n", thd_min, thd_max);
 
+    // calculate standard deviation and variance for each phase
+    double std_a = compute_std_dev(samples, count, 0);
+    double std_b = compute_std_dev(samples, count, 1);
+    double std_c = compute_std_dev(samples, count, 2);
+
+    double var_a = compute_variance(samples, count, 0);
+    double var_b = compute_variance(samples, count, 1);
+    double var_c = compute_variance(samples, count, 2);
+
+    printf("\n====> Standard Deviation <====\n");
+    printf("Phase A: %.4f V\n", std_a);
+    printf("Phase B: %.4f V\n", std_b);
+    printf("Phase C: %.4f V\n", std_c);
+
+    printf("\n====>Variance <====\n");
+    printf("Phase A: %.4f V\n", var_a);
+    printf("Phase B: %.4f V\n", var_b);
+    printf("Phase C: %.4f V\n", var_c);
+
 
     // write all results to results.txt
     write_results("results.txt", samples, count,
@@ -116,7 +136,9 @@ int main(int argc, char *argv[]) {
               clipped_a, clipped_b, clipped_c,
               freq_min, freq_max,
               pf_min, pf_max,
-              thd_min, thd_max);
+              thd_min, thd_max,
+              std_a, std_b, std_c,
+              var_a, var_b, var_c);
 
 
 
