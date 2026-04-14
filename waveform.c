@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <math.h>
 #include "waveform.h"
+
 
 // calculate RMS voltage for a given phase
 // we use phase 0=A, 1=B, 2=C to avoid writing 3 separate functions
@@ -104,4 +106,35 @@ double compute_std_dev(WaveformSample *samples, int count, int phase) {
 double compute_variance(WaveformSample *samples, int count, int phase) {
     double std_dev = compute_std_dev(samples, count, phase);
     return std_dev * std_dev;
+}
+/* status flags for phase using bitwise operations
+ bit 0 = clipping detected
+ bit 1 = out of EN 50160 tolerance
+ bit 2 = high THD (total harmonic distortion { > 5%} )
+ bit 3 = low power factor (hoe efficient electricity is being used {< 0.95})
+*/
+uint8_t compute_status_flags(double rms, int clipped,
+                             double thd, double pf) {
+    uint8_t flag = 0;
+    // bit 0 - clipping
+    if (clipped > 0) {
+        flag |= (1 << 0);
+    }
+    // bit 1 = out of EN 50160 tolerance
+    if (rms < 207.0 || rms > 253.0) {
+        flag |= (1 << 1);
+    }
+    // bit 2 - high thd
+    if (thd > 5.0) {
+        flag |= (1 << 2);
+    }
+    // bit 3 = low power factor
+    if (pf < 0.95) {
+        flag |= (1 << 3);
+    }
+
+    return flag;
+
+
+
 }
