@@ -127,18 +127,39 @@ int main(int argc, char *argv[]) {
     printf("Phase B: %.4f V\n", var_b);
     printf("Phase C: %.4f V\n", var_c);
 
+    // compute status flags for each phase
+    uint8_t flag_a = compute_status_flags(rms_a, clipped_a, thd_max, pf_min);
+    uint8_t flag_b = compute_status_flags(rms_b, clipped_b, thd_max, pf_min);
+    uint8_t flag_c = compute_status_flags(rms_c, clipped_c, thd_max, pf_min);
+
+    printf("\n====> Status Flags <====\n");
+    printf("bit layout: [low_pf][high_thd][out_of_tolerance][clipping]\n");
+    printf("Phase A: %d%d%d%d\n",
+       (flag_a >> 3) & 1, (flag_a >> 2) & 1,
+       (flag_a >> 1) & 1, (flag_a >> 0) & 1);
+    printf("Phase B: %d%d%d%d\n",
+           (flag_b >> 3) & 1, (flag_b >> 2) & 1,
+           (flag_b >> 1) & 1, (flag_b >> 0) & 1);
+    printf("Phase C: %d%d%d%d\n",
+           (flag_c >> 3) & 1, (flag_c >> 2) & 1,
+           (flag_c >> 1) & 1, (flag_c >> 0) & 1);
+
 
     // write all results to results.txt
     write_results("results.txt", samples, count,
-              rms_a, rms_b, rms_c,
-              pp_a, pp_b, pp_c,
-              dc_a, dc_b, dc_c,
-              clipped_a, clipped_b, clipped_c,
-              freq_min, freq_max,
-              pf_min, pf_max,
-              thd_min, thd_max,
-              std_a, std_b, std_c,
-              var_a, var_b, var_c);
+           rms_a, rms_b, rms_c,
+           pp_a, pp_b, pp_c,
+           dc_a, dc_b, dc_c,
+           clipped_a, clipped_b, clipped_c,
+           freq_min, freq_max,
+           pf_min, pf_max,
+           thd_min, thd_max,
+           std_a, std_b, std_c,
+           var_a, var_b, var_c,
+           flag_a, flag_b, flag_c);
+
+
+
 
 
 
