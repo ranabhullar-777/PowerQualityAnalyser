@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include "waveform.h"
 
 WaveformSample *load_csv(const char *filename, int *count) {
@@ -69,7 +70,8 @@ void write_results(const char *filename, WaveformSample *samples, int count,
                    double pf_min, double pf_max,
                    double thd_min, double thd_max,
                    double std_a, double std_b, double std_c,
-                 double var_a, double var_b, double var_c) {
+                 double var_a, double var_b, double var_c,
+                 uint8_t flag_a, uint8_t flag_b, uint8_t flag_c) {
     // open file in write mode - creates it if it doesnt exist
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
@@ -121,6 +123,18 @@ void write_results(const char *filename, WaveformSample *samples, int count,
     fprintf(fp, "Phase A: %.4f V\n", var_a);
     fprintf(fp, "Phase B: %.4f V\n", var_b);
     fprintf(fp, "Phase C: %.4f V\n\n", var_c);
+
+    fprintf(fp, "====>Status Flags <====\n");
+    fprintf(fp, "bit layout: [low_pf][high_thd][out_of_tolerance][clipping]\n");
+    fprintf(fp, "Phase A: %d%d%d%d\n",
+            (flag_a >> 3) & 1, (flag_a >> 2) & 1,
+            (flag_a >> 1) & 1, (flag_a >> 0) & 1);
+    fprintf(fp, "Phase B: %d%d%d%d\n",
+            (flag_b >> 3) & 1, (flag_b >> 2) & 1,
+            (flag_b >> 1) & 1, (flag_b >> 0) & 1);
+    fprintf(fp, "Phase C: %d%d%d%d\n\n",
+            (flag_c >> 3) & 1, (flag_c >> 2) & 1,
+            (flag_c >> 1) & 1, (flag_c >> 0) & 1);
 
 
 
