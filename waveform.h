@@ -1,5 +1,6 @@
 #ifndef WAVEFORM_H
 #define WAVEFORM_H
+#include <stdint.h>
 
 // struct to hold onw row of data from csv file
 typedef struct {
@@ -19,4 +20,5 @@ int count_clipped(WaveformSample *samples, int count, int phase);
 void check_compliance(double rms, int phase);
 double compute_std_dev(WaveformSample *samples, int count, int phase);
 double compute_variance(WaveformSample *samples, int count, int phase);
+uint8_t compute_status_flags(double rms, int clipped, double thd, double pf);
 #endif
