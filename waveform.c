@@ -134,7 +134,29 @@ uint8_t compute_status_flags(double rms, int clipped,
     }
 
     return flag;
+}
+/* sort samples by phase A voltage magnitude using bubble sort
+   uses a  pointer based swapping - no qsort allowed as per brief */
+void sort_by_voltage(WaveformSample *samples, int count) {
+    int swapped;
+    for (int i = 0; i < count - 1; i++) {
+        swapped = 0;
 
+        for (int j = 0; j < count - i - 1; j++) {
+            // compare absolute voltage values
+            double curr = samples[j].phase_A_voltage;
+            double next = samples[j + 1].phase_A_voltage;
 
+            if (curr > next) {
+                // swap using a temp struct
+                WaveformSample temp = samples[j];
+                samples[j] = samples[j + 1];
+                samples[j + 1] = temp;
+                swapped = 1;
+            }
+        }
 
+        // if no swaps happened - already sorted
+        if (swapped == 0) break;
+    }
 }
