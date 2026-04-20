@@ -144,7 +144,21 @@ int main(int argc, char *argv[]) {
            (flag_c >> 3) & 1, (flag_c >> 2) & 1,
            (flag_c >> 1) & 1, (flag_c >> 0) & 1);
 
+    // sort samples by phase A voltage magnitude
+    sort_by_voltage(samples, count);
+    printf("\n====>Top 5 Highest Voltages (Phase A) <====\n");
+    for (int i = count - 1; i >= count - 5; i--) {
+        printf("Time: %.4f | Phase A: %.2f V\n",
+               samples[i].timestamp,
+               samples[i].phase_A_voltage);
+    }
 
+    printf("\n====> Top 5 Lowest Voltages (Phase A) <====\n");
+    for (int i = 0; i < 5; i++) {
+        printf("Time: %.4f | Phase A: %.2f V\n",
+               samples[i].timestamp,
+               samples[i].phase_A_voltage);
+    }
     // write all results to results.txt
     write_results("results.txt", samples, count,
            rms_a, rms_b, rms_c,
