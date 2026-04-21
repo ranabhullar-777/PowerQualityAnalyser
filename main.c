@@ -150,7 +150,7 @@ int main(int argc, char *argv[]) {
     sort_by_voltage(samples, count);
 
     //print top 5 highest voltage samples across all 3 phases
-    printf("\n--- Top 5 Highest Voltages ---\n");
+    printf("\n=====> Top 5 Highest Voltages <=====\n");
     for (int i = count - 1; i >= count - 5; i--) {
         printf("Time: %.4f | Phase A: %.2f V | Phase B: %.2f V | Phase C: %.2f V\n",
                samples[i].timestamp,
@@ -160,7 +160,7 @@ int main(int argc, char *argv[]) {
     }
 
     // print top 5 lowest voltage samples across all 3 phases
-    printf("\n--- Top 5 Lowest Voltages ---\n");
+    printf("\n=====> Top 5 Lowest Voltages <=====\n");
     for (int i = 0; i < 5; i++) {
         printf("Time: %.4f | Phase A: %.2f V | Phase B: %.2f V | Phase C: %.2f V\n",
                samples[i].timestamp,
