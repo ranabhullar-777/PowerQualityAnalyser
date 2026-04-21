@@ -136,6 +136,25 @@ void write_results(const char *filename, WaveformSample *samples, int count,
             (flag_c >> 3) & 1, (flag_c >> 2) & 1,
             (flag_c >> 1) & 1, (flag_c >> 0) & 1);
 
+    // top 5 highest and lowest voltage samples after sorting
+    fprintf(fp, "--- Top 5 Highest Voltages ---\n");
+    for (int i = count - 1; i >= count - 5; i--) {
+        fprintf(fp, "Time: %.4f | Phase A: %.2f V | Phase B: %.2f V | Phase C: %.2f V\n",
+                samples[i].timestamp,
+                samples[i].phase_A_voltage,
+                samples[i].phase_B_voltage,
+                samples[i].phase_C_voltage);
+    }
+
+    fprintf(fp, "\n--- Top 5 Lowest Voltages ---\n");
+    for (int i = 0; i < 5; i++) {
+        fprintf(fp, "Time: %.4f | Phase A: %.2f V | Phase B: %.2f V | Phase C: %.2f V\n",
+                samples[i].timestamp,
+                samples[i].phase_A_voltage,
+                samples[i].phase_B_voltage,
+                samples[i].phase_C_voltage);
+    }
+    fprintf(fp, "\n");
 
 
     fprintf(fp, "\n###########################################\n");
