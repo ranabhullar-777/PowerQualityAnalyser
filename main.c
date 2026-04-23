@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "waveform.h"
+#include <stdint.h>
 #include "io.h"
 
 int main(int argc, char *argv[]) {
