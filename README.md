@@ -31,6 +31,9 @@ report to results.txt.
 - Tolerance compliance (207V - 253V band)
 - Standard deviation per phase (merit extension)
 - Frequency, power factor and THD reporting
+-  Standard deviation and variance per phase (merit extension)
+-  Bitwise status flags per phase (merit extension)
+- Sorted top 5 highest and lowest voltage samples (merit extension)
 
 ---
 
