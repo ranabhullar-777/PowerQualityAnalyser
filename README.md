@@ -70,6 +70,11 @@ gcc main.c io.c waveform.c -o PowerQualityAnalyser -lm
 - Frequency: 50.000 - 50.048 Hz
 - Power factor: 0.950 - 0.962
 - THD: 2.00% - 2.18%
+- Standard deviation: ~229.81V per phase
+- Variance: ~52812.50V per phase
+- Status flags: 0001 (clipping detected, all phases)
+- Top 5 highest voltages: Phase A 325.00V
+- Top 5 lowest voltages: Phase A -325.00V
 
 ---
 
