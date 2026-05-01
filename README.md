@@ -29,7 +29,6 @@ report to results.txt.
 - DC offset per phase
 - Clipping detection (sensor limit ±325.0V)
 - Tolerance compliance (207V - 253V band)
-- Standard deviation per phase (merit extension)
 - Frequency, power factor and THD reporting
 -  Standard deviation and variance per phase (merit extension)
 -  Bitwise status flags per phase (merit extension)
